@@ -1,0 +1,44 @@
+{
+  "name": "@anodhas/harness-local-voice",
+  "version": "0.2.0",
+  "description": "Локальный голосовой диалог и диктовка для DeepSeek Harness на Mac",
+  "main": "package/index.cjs",
+  "exports": {
+    ".": "./package/index.cjs",
+    "./client": "./package/client.js",
+    "./package.json": "./package.json"
+  },
+  "os": [
+    "darwin"
+  ],
+  "cpu": [
+    "arm64"
+  ],
+  "engines": {
+    "dsh": ">=0.2.2-rc.1 <0.3.0"
+  },
+  "files": [
+    "package",
+    "native",
+    "cordis.patch.yml",
+    "README.md",
+    "THIRD_PARTY_NOTICES.md",
+    "LICENSES",
+    "BUILD.md"
+  ],
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "platform": "web",
+      "inject": [
+        "@deepseek-ai/dsh-api-session-controller",
+        "@deepseek-ai/dsh-client-ui-session",
+        "@deepseek-ai/dsh-client-ui-conversation"
+      ]
+    }
+  },
+  "private": true,
+  "license": "UNLICENSED"
+}

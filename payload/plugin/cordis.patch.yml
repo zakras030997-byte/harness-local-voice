@@ -1,0 +1,24 @@
+# Disable only the optional stock dictation composition while this bundle is enabled.
+- id: speech-to-text
+  disabled: true
+- id: speech-to-text-sensevoice
+  disabled: true
+- id: api-speech-to-text
+  disabled: true
+- id: ui-voice-input
+  disabled: true
+- insert:
+    - id: anodhas-portable-speech
+      name: '@deepseek-ai/dsh-experimental-speech-to-text'
+      config:
+        defaultProvider: handy-parakeet-shared
+        language: ru
+    - id: anodhas-portable-speech-api
+      name: '@deepseek-ai/dsh-experimental-api-speech-to-text'
+      config:
+        maxAudioBytes: 4194304
+        maxDurationSeconds: 120
+    - id: anodhas-portable-dictation-ui
+      name: '@deepseek-ai/dsh-experimental-client-ui-voice-input'
+    - id: anodhas-portable-voice
+      name: '@anodhas/harness-local-voice'

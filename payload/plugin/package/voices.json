@@ -1,0 +1,32 @@
+[
+  {
+    "id": "ru_vika",
+    "label": "Виктория",
+    "engine": "silero-cis"
+  },
+  {
+    "id": "ru_ekaterina",
+    "label": "Екатерина",
+    "engine": "silero-cis"
+  },
+  {
+    "id": "ru_oksana",
+    "label": "Оксана",
+    "engine": "silero-cis"
+  },
+  {
+    "id": "ru_dmitriy",
+    "label": "Дмитрий",
+    "engine": "silero-cis"
+  },
+  {
+    "id": "ru_roman",
+    "label": "Роман",
+    "engine": "silero-cis"
+  },
+  {
+    "id": "ru_alexandr",
+    "label": "Александр",
+    "engine": "silero-cis"
+  }
+]

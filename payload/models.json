@@ -1,0 +1,16 @@
+{
+  "asr": {
+    "file": "parakeet-tdt-0.6b-v3-Q4_K_M.gguf",
+    "size": 485425504,
+    "sha256": "b68557be1e3c40207fd7c4bd9d63f1d3316b963f15325bfb0cc16a8bb0ffd181",
+    "url": "https://huggingface.co/handy-computer/parakeet-tdt-0.6b-v3-gguf/resolve/d8d8c32cb2017c57e5307767343e97870f8a7f53/parakeet-tdt-0.6b-v3-Q4_K_M.gguf",
+    "license": "CC-BY-4.0"
+  },
+  "tts": {
+    "file": "v5_cis_base.pt",
+    "size": 91680514,
+    "sha256": "ba41b18f6a707ad93605a162998865e7c087153d2e010a26dd02229dab0e672a",
+    "url": "https://models.silero.ai/models/tts/ru/v5_cis_base.pt",
+    "license": "MIT"
+  }
+}

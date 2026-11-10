@@ -1,0 +1,15 @@
+build/
+installer/release/
+installer/swift-cache/
+installer/Voice.iconset/
+installer/icon-tool
+installer/icon.png
+__pycache__/
+*.pyc
+.DS_Store
+node_modules/
+*.part-*
+runtime-config.json
+install-state.json
+gui-install-receipt.json
+tts-runtime/
