@@ -76,7 +76,7 @@ final class GlassButton:NSButton {
 final class Controller:NSObject,NSApplicationDelegate {
  var referenceForm:NSPanel?,referenceName=NSTextField(),referenceText=NSTextView(),pickedReference:URL?,currentVoiceIds:[String]=[]
  var widgetScale:Double=1
- var panel:FloatingPanel!,orb=Orb(),buttons:[String:NSButton]=[:],popover=NSPopover(),voice=NSPopUpButton(),volume=NSSlider(),rate=NSSlider(),sensitivity=NSSlider(),sizeSlider=NSSlider(),sizeValue=NSTextField(labelWithString:"100%"),volumeValue=NSTextField(labelWithString:"85%"),sensitivityValue=NSTextField(labelWithString:"1.0×"),rateValue=NSTextField(labelWithString:"1.0×"),allSpaces=NSButton(),lastUpdate=Date(),lastState:[String:Any]=[:],cueSound:NSSound?
+ var panel:FloatingPanel!,orb=Orb(),buttons:[String:NSButton]=[:],popover=NSPopover(),voice=NSPopUpButton(),volume=NSSlider(),rate=NSSlider(),sensitivity=NSSlider(),sizeSlider=NSSlider(),sizeValue=NSTextField(labelWithString:"100%"),volumeValue=NSTextField(labelWithString:"85%"),sensitivityValue=NSTextField(labelWithString:"1.0×"),rateValue=NSTextField(labelWithString:"1.0×"),allSpaces=NSButton(),allowInterrupt=NSButton(),lastUpdate=Date(),lastState:[String:Any]=[:],cueSound:NSSound?
  func applicationDidFinishLaunching(_ notification:Notification) {
   NSApp.setActivationPolicy(.accessory)
   panel=FloatingPanel(contentRect:NSRect(x:0,y:0,width:244,height:244),styleMask:[.borderless,.nonactivatingPanel],backing:.buffered,defer:false)
@@ -93,14 +93,15 @@ final class Controller:NSObject,NSApplicationDelegate {
   Timer.scheduledTimer(withTimeInterval:1,repeats:true){_ in if Date().timeIntervalSince(self.lastUpdate)>30 { emit(["action":"closed"]);NSApp.terminate(nil) } }
  }
  func setupPopover() {
-  let vc=NSViewController();vc.view=NSView(frame:NSRect(x:0,y:0,width:266,height:318))
-  let title=NSTextField(labelWithString:"Голос и звук");title.font = .boldSystemFont(ofSize:13);title.frame=NSRect(x:16,y:284,width:220,height:20);vc.view.addSubview(title)
-  voice=NSPopUpButton(frame:NSRect(x:14,y:244,width:238,height:26));voice.target=self;voice.action=#selector(changeVoice);voice.setAccessibilityLabel("Голос ответов");vc.view.addSubview(voice)
+  let vc=NSViewController();vc.view=NSView(frame:NSRect(x:0,y:0,width:266,height:350))
+  let title=NSTextField(labelWithString:"Голос и звук");title.font = .boldSystemFont(ofSize:13);title.frame=NSRect(x:16,y:316,width:220,height:20);vc.view.addSubview(title)
+  voice=NSPopUpButton(frame:NSRect(x:14,y:276,width:238,height:26));voice.target=self;voice.action=#selector(changeVoice);voice.setAccessibilityLabel("Голос ответов");vc.view.addSubview(voice)
   func row(_ text:String,_ y:CGFloat,_ slider:NSSlider,_ value:NSTextField){let label=NSTextField(labelWithString:text);label.frame=NSRect(x:16,y:y+4,width:64,height:20);label.font = .systemFont(ofSize:11);vc.view.addSubview(label);slider.frame=NSRect(x:80,y:y,width:126,height:24);slider.isContinuous=true;vc.view.addSubview(slider);value.frame=NSRect(x:210,y:y+4,width:42,height:20);value.font = .monospacedDigitSystemFont(ofSize:11,weight:.regular);vc.view.addSubview(value)}
-  sizeSlider=NSSlider(value:1,minValue:0.6,maxValue:1.6,target:self,action:#selector(changeSize));sizeSlider.setAccessibilityLabel("Размер виджета");row("Размер",210,sizeSlider,sizeValue)
-  sensitivity=NSSlider(value:1,minValue:0.5,maxValue:3,target:self,action:#selector(changeSensitivity));sensitivity.setAccessibilityLabel("Чувствительность микрофона");sensitivity.toolTip="Выше — лучше слышен тихий голос, но сильнее фоновый шум. 1× — обычная чувствительность.";row("Микрофон",178,sensitivity,sensitivityValue)
-  volume=NSSlider(value:0.85,minValue:0,maxValue:1,target:self,action:#selector(changeVolume));volume.setAccessibilityLabel("Громкость ответа");row("Громкость",146,volume,volumeValue)
-  rate=NSSlider(value:1,minValue:0.7,maxValue:2,target:self,action:#selector(changeRate));rate.setAccessibilityLabel("Скорость ответа");row("Скорость",114,rate,rateValue)
+  sizeSlider=NSSlider(value:1,minValue:0.6,maxValue:1.6,target:self,action:#selector(changeSize));sizeSlider.setAccessibilityLabel("Размер виджета");row("Размер",242,sizeSlider,sizeValue)
+  sensitivity=NSSlider(value:1,minValue:0.5,maxValue:3,target:self,action:#selector(changeSensitivity));sensitivity.setAccessibilityLabel("Чувствительность микрофона");sensitivity.toolTip="Выше — лучше слышен тихий голос, но сильнее фоновый шум. 1× — обычная чувствительность.";row("Микрофон",210,sensitivity,sensitivityValue)
+  volume=NSSlider(value:0.85,minValue:0,maxValue:1,target:self,action:#selector(changeVolume));volume.setAccessibilityLabel("Громкость ответа");row("Громкость",178,volume,volumeValue)
+  rate=NSSlider(value:1,minValue:0.7,maxValue:2,target:self,action:#selector(changeRate));rate.setAccessibilityLabel("Скорость ответа");row("Скорость",146,rate,rateValue)
+  allowInterrupt=NSButton(checkboxWithTitle:"Разрешить перебивание",target:self,action:#selector(changeInterruption));allowInterrupt.state = .on;allowInterrupt.frame=NSRect(x:14,y:110,width:238,height:24);allowInterrupt.setAccessibilityLabel("Разрешить перебивание");allowInterrupt.toolTip="Выключите, чтобы посторонние звуки не останавливали ответ.";vc.view.addSubview(allowInterrupt)
   allSpaces=NSButton(checkboxWithTitle:"На всех рабочих столах",target:self,action:#selector(changeSpaces));allSpaces.state = .on;allSpaces.frame=NSRect(x:14,y:76,width:238,height:24);vc.view.addSubview(allSpaces)
   let sample=NSButton(title:"Послушать",target:self,action:#selector(preview));sample.frame=NSRect(x:14,y:42,width:238,height:26);vc.view.addSubview(sample)
   let add=NSButton(title:"Добавить голосовой эталон",target:self,action:#selector(addReference));add.frame=NSRect(x:14,y:8,width:238,height:28);add.setAccessibilityLabel("Добавить голосовой эталон");vc.view.addSubview(add)
@@ -126,6 +127,7 @@ final class Controller:NSObject,NSApplicationDelegate {
  func cue(_ name:String="click") { guard let url=Bundle.main.resourceURL?.appendingPathComponent("cues/"+name+".wav"),let sound=NSSound(contentsOf:url,byReference:true) else{return};cueSound?.stop();cueSound=sound;sound.volume=Float(max(0.15,volume.doubleValue));sound.play() }
  @objc func action(_ sender:NSButton) { let id=sender.identifier!.rawValue;if id != "end" {cue(id=="mic" ? ((lastState["micMuted"] as? Bool ?? false) ? "unmute":"mute"):"click")};if id=="settings" { if popover.isShown {popover.performClose(nil)}else{popover.show(relativeTo:sender.bounds,of:sender,preferredEdge:.minX)} }else{emit(["action":id])} }
  @objc func changeVoice(){cue();if let id=voice.selectedItem?.representedObject as? String{emit(["action":"voice","value":id])}}
+ @objc func changeInterruption(){emit(["action":"interruption","value":allowInterrupt.state == .on])}
  @objc func changeVolume(){volumeValue.stringValue=String(format:"%.0f%%",volume.doubleValue*100);emit(["action":"volume","value":volume.doubleValue])}
  @objc func changeSensitivity(){sensitivityValue.stringValue=String(format:"%.1f×",sensitivity.doubleValue);emit(["action":"sensitivity","value":sensitivity.doubleValue])}
  @objc func changeRate(){rateValue.stringValue=String(format:"%.2g×",rate.doubleValue);emit(["action":"rate","value":rate.doubleValue])}
@@ -135,6 +137,7 @@ final class Controller:NSObject,NSApplicationDelegate {
   lastUpdate=Date();lastState=s;if s["quit"] as? Bool == true {NSApp.terminate(nil);return}
   if let catalog=s["voices"] as? [[String:Any]] {let ids=catalog.compactMap{$0["id"] as? String};if ids != currentVoiceIds {currentVoiceIds=ids;voice.removeAllItems();for v in catalog {voice.addItem(withTitle:v["label"] as? String ?? "");voice.lastItem?.representedObject=v["id"] as? String}}}
   if let id=s["voice"] as? String,let item=voice.itemArray.first(where:{$0.representedObject as? String == id}) {voice.select(item)}
+  if let x=s["allowInterrupt"] as? Bool {allowInterrupt.state = x ? .on : .off}
   if let x=s["volume"] as? Double {volume.doubleValue=x;volumeValue.stringValue=String(format:"%.0f%%",x*100)}
   if let x=s["size"] as? Double {sizeSlider.doubleValue=x;sizeValue.stringValue=String(format:"%.0f%%",x*100);applySize(x)}
   if let x=s["sensitivity"] as? Double {sensitivity.doubleValue=x;sensitivityValue.stringValue=String(format:"%.1f×",x)}

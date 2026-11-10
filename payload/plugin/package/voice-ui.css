@@ -42,3 +42,5 @@
 .av-sensitivity output{min-width:36px;text-align:right;font-variant-numeric:tabular-nums;color:#e3d4fb}
 
 .av-widget{position:relative;width:248px;height:210px;transform-origin:top left}.av-size output{min-width:36px;text-align:right;font-variant-numeric:tabular-nums;color:#e3d4fb}
+
+.av-read-seat{display:inline-flex;align-items:center}.av-read-aloud svg{width:18px;height:18px;display:block;flex:none}.av-read-aloud:hover{background:rgba(255,255,255,.08)!important;opacity:1!important}.av-read-aloud:focus-visible{outline:2px solid #e4ad65;outline-offset:2px}
