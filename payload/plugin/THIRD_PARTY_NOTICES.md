@@ -8,3 +8,7 @@
 - This package does not include Codex sound assets or non-commercial Silero v5_6_ru weights. Interface cue audio is synthesized by ANODHAS.
 
 - Python runtime: Astral python-build-standalone, pinned release20261026 / CPython3.12.16. https://github.com/astral-sh/python-build-standalone . Downloaded separately with SHA-256 verification; full original distribution license files retained. Harness Python and its code signature are not modified.
+
+- Qwen3-TTS-12Hz-1.7B-Base / MLX 4-bit conversion: Qwen Team and MLX Community, Apache-2.0. https://huggingface.co/mlx-community/Qwen3-TTS-12Hz-1.7B-Base-4bit . Pinned snapshot and per-file hashes in reference-model.json; weights downloaded separately, not embedded.
+- MLX Audio (MIT), MLX (MIT), Transformers (Apache-2.0) and their dependencies: pinned official PyPI wheels with hashes in reference-requirements.lock. Original wheel license notices retained in the installed environment.
+- Sphere glass texture: generated for ANODHAS using image generation; live waveform, mist and vector controls implemented by ANODHAS. No Codex UI art or sound assets are included.

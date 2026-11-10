@@ -9,9 +9,9 @@ final class Installer: NSObject, NSApplicationDelegate, NSWindowDelegate {
   let v=window.contentView!;v.wantsLayer=true;v.layer?.backgroundColor=NSColor(calibratedRed:0.10,green:0.085,blue:0.14,alpha:1).cgColor
   let icon=NSImageView(frame:NSRect(x:38,y:280,width:68,height:68));icon.image=NSImage(systemSymbolName:"waveform.circle.fill",accessibilityDescription:"Голос");icon.contentTintColor=NSColor(calibratedRed:0.64,green:0.43,blue:1,alpha:1);icon.symbolConfiguration=NSImage.SymbolConfiguration(pointSize:62,weight:.regular);v.addSubview(icon)
   let title=text("Голос для Harness",NSRect(x:126,y:311,width:370,height:35),24,.semibold);v.addSubview(title)
-  v.addSubview(text("Разговор с перебиванием и диктовка",NSRect(x:126,y:281,width:370,height:25),14,.regular))
+  v.addSubview(text("Разговор · диктовка · голосовые эталоны",NSRect(x:126,y:281,width:370,height:25),14,.regular))
   label=text("Всё подключится автоматически",NSRect(x:38,y:223,width:464,height:30),17,.medium);v.addSubview(label)
-  detail=text("Речь обрабатывается на Mac. При первой установке нужен интернет для загрузки моделей. Ваши модели и подписки Harness сохранятся.",NSRect(x:38,y:141,width:464,height:72),13,.regular);detail.textColor=NSColor(calibratedWhite:0.78,alpha:1);v.addSubview(detail)
+  detail=text("Речь обрабатывается на Mac. При первой установке загрузятся модели, включая Qwen для голосовых эталонов (около 3 ГБ). Ваши модели и подписки Harness сохранятся.",NSRect(x:38,y:141,width:464,height:72),13,.regular);detail.textColor=NSColor(calibratedWhite:0.78,alpha:1);v.addSubview(detail)
   progress=NSProgressIndicator(frame:NSRect(x:38,y:117,width:464,height:5));progress.style = .bar;progress.isIndeterminate=true;progress.isHidden=true;v.addSubview(progress)
   action=NSButton(title:"Установить",target:self,action:#selector(start));action.frame=NSRect(x:340,y:47,width:162,height:38);action.bezelStyle = .rounded;action.keyEquivalent="\r";action.bezelColor=NSColor(calibratedRed:0.52,green:0.28,blue:0.88,alpha:1);action.contentTintColor=NSColor.white;v.addSubview(action)
   v.addSubview(text("Apple Silicon · macOS 26+",NSRect(x:38,y:53,width:270,height:24),12,.regular))

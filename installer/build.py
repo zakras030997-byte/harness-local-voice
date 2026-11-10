@@ -1,13 +1,17 @@
 from pathlib import Path
-import shutil,plistlib,subprocess
+import shutil,plistlib,subprocess,hashlib
 base=Path(__file__).resolve().parent
 out=base.parent/'build/release';out.mkdir(parents=True,exist_ok=True)
 app=out/'Установить ANODHAS Voice.app'
 res=app/'Contents/Resources';bin=app/'Contents/MacOS';res.mkdir(parents=True,exist_ok=True);bin.mkdir(parents=True,exist_ok=True)
 payload=base.parent/'payload'
+orb=payload/'plugin/native/VoiceOrb.app'
+subprocess.run(['xcrun','swiftc','-sdk','/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk','-module-cache-path',str(base/'swift-cache'),'-target','arm64-apple-macos26.0',str(payload/'plugin/native/src/voice-panel.swift'),'-o',str(orb/'Contents/MacOS/voice-panel'),'-framework','Cocoa'],check=True)
+subprocess.run(['codesign','--force','--deep','--sign','-',str(orb)],check=True)
+(payload/'SHA256SUMS').write_text(''.join(hashlib.sha256(f.read_bytes()).hexdigest()+'  '+f.relative_to(payload).as_posix()+'\n' for f in sorted(payload.rglob('*')) if f.is_file() and not f.is_symlink() and f.name!='SHA256SUMS'))
 shutil.copytree(payload,res/'payload',dirs_exist_ok=True)
 shutil.copy2(base/'install.cjs',res/'install.cjs')
-plist={'CFBundleIdentifier':'ai.anodhas.harness.voice.installer','CFBundleName':'ANODHAS Voice Installer','CFBundleDisplayName':'Установить ANODHAS Voice','CFBundleExecutable':'VoiceInstaller','CFBundlePackageType':'APPL','CFBundleShortVersionString':'0.2.1','CFBundleVersion':'21','LSMinimumSystemVersion':'26.0','NSHighResolutionCapable':True,'CFBundleIconFile':'Voice.icns'}
+plist={'CFBundleIdentifier':'ai.anodhas.harness.voice.installer','CFBundleName':'ANODHAS Voice Installer','CFBundleDisplayName':'Установить ANODHAS Voice','CFBundleExecutable':'VoiceInstaller','CFBundlePackageType':'APPL','CFBundleShortVersionString':'0.3.0','CFBundleVersion':'30','LSMinimumSystemVersion':'26.0','NSHighResolutionCapable':True,'CFBundleIconFile':'Voice.icns'}
 (app/'Contents/Info.plist').write_bytes(plistlib.dumps(plist))
 subprocess.run(['xcrun','swiftc','-sdk','/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk','-module-cache-path',str(base/'swift-cache'),'-target','arm64-apple-macos26.0',str(base/'Installer.swift'),'-o',str(bin/'VoiceInstaller'),'-framework','Cocoa'],check=True)
 subprocess.run(['xcrun','swiftc','-sdk','/Library/Developer/CommandLineTools/SDKs/MacOSX26.5.sdk','-module-cache-path',str(base/'swift-cache'),str(base/'Icon.swift'),'-o',str(base/'icon-tool')],check=True)

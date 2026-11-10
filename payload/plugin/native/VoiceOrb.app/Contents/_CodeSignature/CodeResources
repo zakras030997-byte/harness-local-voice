@@ -24,6 +24,10 @@
 		<data>
 		DG0Osaf6eZB9ft7DodV1C9Obyec=
 		</data>
+		<key>Resources/sphere-glass.png</key>
+		<data>
+		6YTW9HBM1kE/3bPny7oTrb4hmtc=
+		</data>
 	</dict>
 	<key>files2</key>
 	<dict>
@@ -60,6 +64,13 @@
 			<key>hash2</key>
 			<data>
 			qoV7s8hTG6vQF1+gawx76csUPnvwgwa5DxYpuT9cqms=
+			</data>
+		</dict>
+		<key>Resources/sphere-glass.png</key>
+		<dict>
+			<key>hash2</key>
+			<data>
+			GIStMzXLrN7MWa3OEsj9+0xI+XXEQz8HfvLLB3VQDoo=
 			</data>
 		</dict>
 	</dict>
