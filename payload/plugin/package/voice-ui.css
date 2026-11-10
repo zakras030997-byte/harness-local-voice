@@ -38,3 +38,7 @@
 .av-controls .av-icon,.av-controls .av-end{width:34px!important;height:34px!important;border-color:#ffc76ee8;box-shadow:0 0 1px #ffd58b,0 0 8px #e79a2338,inset 0 1px 2px #ffdda74d;background:radial-gradient(ellipse at 38% 16%,#865728d9,#3b2014f2 64%,#160d17f5)}.av-controls .av-icon svg{width:20px;height:20px;stroke-width:1.9;shape-rendering:geometricPrecision}
 @media(prefers-reduced-motion:reduce){.av-mist:before,.av-mist:after{animation:none!important;transform:none}.av-wave{filter:none}}
 .av-glass-texture{position:absolute;inset:-3%;width:106%;height:106%;object-fit:fill;pointer-events:none;user-select:none}.av-orb:before{opacity:.12}.av-orb:after{opacity:.25}.av-mist{opacity:.8}
+
+.av-sensitivity output{min-width:36px;text-align:right;font-variant-numeric:tabular-nums;color:#e3d4fb}
+
+.av-widget{position:relative;width:248px;height:210px;transform-origin:top left}.av-size output{min-width:36px;text-align:right;font-variant-numeric:tabular-nums;color:#e3d4fb}

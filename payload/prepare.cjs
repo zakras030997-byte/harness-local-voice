@@ -1,5 +1,5 @@
 const fs=require('fs'),path=require('path'),os=require('os'),crypto=require('crypto'),net=require('net'),{spawn,execFile}=require('child_process');
-const release=__dirname,version='0.3.0',kind='anodhas-harness-voice-install-v1';
+const release=__dirname,version='0.3.1',kind='anodhas-harness-voice-install-v1';
 async function sha(file){const h=crypto.createHash('sha256');for await(const b of fs.createReadStream(file))h.update(b);return h.digest('hex')}
 async function valid(file,spec){try{return fs.statSync(file).isFile()&&fs.statSync(file).size===spec.size&&(await sha(file))===spec.sha256}catch{return false}}
 function env(){const e={...process.env,PYTHONNOUSERSITE:'1',PIP_DISABLE_PIP_VERSION_CHECK:'1'};for(const k of ['PYTHONHOME','PYTHONPATH','PIP_INDEX_URL','PIP_EXTRA_INDEX_URL'])delete e[k];return e}

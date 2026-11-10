@@ -1,6 +1,6 @@
 {
   "name": "@anodhas/harness-local-voice",
-  "version": "0.3.0",
+  "version": "0.3.1",
   "description": "Локальный голосовой диалог и диктовка для DeepSeek Harness на Mac",
   "main": "package/index.cjs",
   "exports": {
